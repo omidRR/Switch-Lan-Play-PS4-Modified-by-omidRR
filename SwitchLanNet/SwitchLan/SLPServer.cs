@@ -10,29 +10,29 @@ using System.Threading.Tasks;
 
 namespace SwitchLanNet
 {
-    /// <summary>
+
     /// Switch Lan Play UDP Relay Server
-    /// </summary>
+
     public class SLPServer
     {
-        /// <summary>
+
         /// Timeout in seconds before removing clients from cache
-        /// </summary>
+
         const int TIMEOUT = 300;
 
-        /// <summary>
+
         /// IPv4 Packet Source Offset
-        /// </summary>
+
         const int IPV4_OFF_SRC = 12;
 
-        /// <summary>
+
         /// IPv4 Packet Destination Offset
-        /// </summary>
+
         const int IPV4_OFF_DST = 16;
 
-        /// <summary>
+
         /// Test and statistic data for this server
-        /// </summary>
+
         public TestData TestData { get; }
         //forgetclientusers
         public IEnumerable<string> clientippptest
@@ -57,18 +57,17 @@ namespace SwitchLanNet
 
         }
 
-        /// <summary>
+
         /// Starts listening and running the reset loop
-        /// </summary>
+
         public async void Run()
         {
             ResetData();
             RunLoop();
         }
 
-        /// <summary>
+
         /// UDP Listen Loop
-        /// </summary>
         async void RunLoop()
         {
             Console.WriteLine("[INFO] Running listen loop..");
@@ -115,10 +114,7 @@ namespace SwitchLanNet
 
             _server.Close();
         }
-
-        /// <summary>
         /// Determine which method to pass the packet to based on its ForwaderType
-        /// </summary>
         /// <param name="ip"></param>
         /// <param name="type"></param>
         /// <param name="payload"></param>
@@ -188,9 +184,7 @@ namespace SwitchLanNet
         }
         #endregion
 
-        /// <summary>
         /// Send data to another connected client
-        /// </summary>
         /// <param name="addr">Endpoint to send data to</param>
         /// <param name="data">Byte array of packet data to send</param>
         void SendTo(IPEndPoint addr, byte[] data)
@@ -209,10 +203,7 @@ namespace SwitchLanNet
                     _clients.Remove(Utils.AddressToString(addr));
             }
         }
-
-        /// <summary>
         /// Send data to all connected clients except sender
-        /// </summary>
         /// <param name="except">Sender endpoint to avoid sending to</param>
         /// <param name="data">Byte array of packet data to send</param>
         void SendBroadcast(IPEndPoint except, byte[] data)
@@ -224,10 +215,7 @@ namespace SwitchLanNet
                 SendTo(client.Value.RInfo, data);
 
         }
-
-        /// <summary>
         /// Runs a loop to reset upload/download speed stats per second and clear timed-out clients
-        /// </summary>
         async void ResetData()
         {
             Console.WriteLine("[INFO] Running reset loop..");
@@ -249,22 +237,14 @@ namespace SwitchLanNet
         }
     }
 
-    /// <summary>
+
     /// Holds test data and statistics for use by the web API
-    /// </summary>
     public class TestData
     {
-        /// <summary>
         /// Upload speed in bytes/s
-        /// </summary>
         public long Upload { get; set; }
-
-        /// <summary>
         /// Download speed in bytes/s
-        /// </summary>
         public long Download { get; set; }
-
-
 
         public TestData()
         {

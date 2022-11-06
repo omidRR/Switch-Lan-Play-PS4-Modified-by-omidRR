@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SwitchLanNet.Enums
+﻿namespace SwitchLanNet.Enums
 {
     internal enum ForwarderType
     {

@@ -26,7 +26,6 @@ namespace SwitchLanNet.Controllers
 
             return Json(new
             {
-                sponser = "Kos babaye mehdi devil @devilhe",
                 Success = true,
 
                 SpeedStats = new

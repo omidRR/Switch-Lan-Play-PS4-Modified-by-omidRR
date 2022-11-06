@@ -10,7 +10,6 @@ namespace SwitchLanNet
     {
         public static string AddressToString(IPEndPoint addr)
             => $"{addr.Address.ToString()}:{addr.Port}/info";
-
         public static Dictionary<T, CacheItem> ClearCacheItem<T>(Dictionary<T, CacheItem> map)
         {
             var date = DateTime.Now;

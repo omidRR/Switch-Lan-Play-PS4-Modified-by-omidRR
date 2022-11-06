@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SwitchLanNet": {
+    "SwitchLanNet by omidRR": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
