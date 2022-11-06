@@ -7,7 +7,7 @@ To call the API, simply `GET http://ip:port`
 
 - `Speed was improved`
 
-- `Size was reduced from 18 MB to 500 KB`
+- `Size was reduced from 18 MB to 150 KB`
 
 - `Source optimization`
 
