@@ -13,3 +13,4 @@
 
 `Port and IP can be manually set`
 
+`Display server host name`
