@@ -1,5 +1,7 @@
 A quick and easy program to create IP to connect to ps4 console
 
+To call the API, simply `GET http://ip:port`
+
 # Changelog
 - `Upgraded to .NET 6`
 
