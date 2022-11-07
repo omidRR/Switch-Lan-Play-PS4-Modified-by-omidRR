@@ -7,6 +7,8 @@ To call the API, simply `GET http://ip:port`
 
 - `Speed was improved`
 
+- `JSON Beautifier Added`
+
 - `Size was reduced from 18 MB to 150 KB`
 
 - `Source optimization`
