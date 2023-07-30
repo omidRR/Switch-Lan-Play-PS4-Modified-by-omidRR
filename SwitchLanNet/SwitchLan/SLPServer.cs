@@ -1,6 +1,4 @@
-﻿using SwitchLanNet.Enums;
-using SwitchLanNet.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,7 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SwitchLanNet
+namespace Switch_Lan_Play_Modified_by_omidRR.SwitchLan
 {
 
     /// Switch Lan Play UDP Relay Server
@@ -18,7 +16,7 @@ namespace SwitchLanNet
 
         /// Timeout in seconds before removing clients from cache
 
-        const int TIMEOUT = 300;
+        const int TIMEOUT = 100;
 
 
         /// IPv4 Packet Source Offset
@@ -236,9 +234,35 @@ namespace SwitchLanNet
             }
         }
     }
+    
+        internal enum ForwarderType
+        {
+            Keepalive = 0,
+            Ipv4 = 1,
+            Ping = 2,
+            Ipv4Frag = 3
+        }
+        internal class CacheItem
+        {
+            public DateTime ExpireAt { get; set; }
+            public IPEndPoint RInfo { get; set; }
+        }
 
+        internal static class Utils
+        {
+            public static string AddressToString(IPEndPoint addr)
+                => $"{addr.Address.ToString()}:{addr.Port}/info";
+            public static Dictionary<T, CacheItem> ClearCacheItem<T>(Dictionary<T, CacheItem> map)
+            {
+                var date = DateTime.Now;
+                var val = map.FirstOrDefault(p => p.Value?.ExpireAt < date);
+                if (val.Key != null)
+                    map.Remove(val.Key);
 
-    /// Holds test data and statistics for use by the web API
+                return map;
+            }
+        }
+/// Holds test data and statistics for use by the web API
     public class TestData
     {
         /// Upload speed in bytes/s

@@ -1,76 +1,89 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Switch_Lan_Play_Modified_by_omidRR.SwitchLan;
 using System;
 using System.Linq;
 using System.Net;
 
-namespace SwitchLanNet.Controllers
+namespace Switch_Lan_Play_Modified_by_omidRR.Controllers
 {
     [Route("/")]
     [ApiController]
     public class StatsController : Controller
     {
-        SLPServer _slp;
+        private SLPServer _slp;
 
         public StatsController(SLPServer slp)
         {
             _slp = slp;
-
         }
 
         [HttpGet]
         public IActionResult OnGet()
         {
-            var data = _slp?.TestData;
-            if (data == null)
-                return Json(new { Success = false, Error = "Failed to retrieve server stats." });
-
-            return Json(new
+            try
             {
-                Success = true,
+                var data = _slp?.TestData;
 
-                SpeedStats = new
+                if (data == null)
                 {
-                    UploadSpeed = $"{data.Upload} Bytes/s",
-                    DownloadSpeed = $"{data.Download} Bytes/s"
-                },
+                    return Json(new { Success = false, Error = "Failed to retrieve server stats." });
+                }
 
-                _slp.ClientCount
-            ,
-                yourinfo = dd.dx(),
+                var hostInfo = GetHostInfo();
 
-                userclientIP = _slp.clientippptest,
-            });
+                // Mask each IP address
+                var maskedUserClientIPs = _slp.clientippptest.Select(MaskIpAddress).ToList();
 
+                return Json(new
+                {
+                    SpeedStats = new
+                    {
+                        UploadSpeed = $"{data.Upload} Bytes/s",
+                        DownloadSpeed = $"{data.Download} Bytes/s"
+                    },
+                    ClientCount = _slp.ClientCount,
+                    YourInfo = hostInfo,
+                    UserClientIP = maskedUserClientIPs,
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message });
+            }
         }
 
-        public class dd
+        private static object GetHostInfo()
         {
-            public static JsonResult dx()
+            try
             {
-                try
+                var addressList = Dns.GetHostEntry(Dns.GetHostName());
+                var allAddresses = addressList.AddressList.Select(x => x.ToString().Trim());
+                var hostname = addressList.HostName.Trim();
+
+                return new
                 {
-
-                    var addlist = Dns.GetHostEntry(Dns.GetHostName());
-                    //Retrieve client IP address through HttpContext.Connection
-                    var allArray = (addlist.AddressList.Select(x => x.ToString().Trim()));
-                    var hostname = addlist.HostName.ToString().Trim();
-
-                    return new JsonResult(new
-                    {
-                        allHost = allArray,
-                        Hostname = hostname
-                    });
-                }
-                catch (Exception e)
-                {
-                    return new JsonResult(new
-                    {
-                        errormessage = e.Message,
-                        InnerException = e.InnerException
-                    });
-                }
-
+                    AllHosts = allAddresses,
+                    Hostname = hostname
+                };
             }
+            catch (Exception e)
+            {
+                return new
+                {
+                };
+            }
+        }
+
+        // This is the function to mask IP
+        private static string MaskIpAddress(string ipAddress)
+        {
+            var parts = ipAddress.Split(':');
+            var ipParts = parts[0].Split('.');
+            if (ipParts.Length == 4)
+            {
+                return $"{ipParts[0]}.{ipParts[1]}.{ipParts[2]}.*:{parts[1]}";
+            }
+            return ipAddress;
         }
     }
 }
