@@ -6,6 +6,9 @@
     <OutputType>Exe</OutputType>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <FileVersion>1.2.0.0</FileVersion>
+    <UserSecretsId>f8ffabea-bdc7-498a-bde8-430fd850c11b</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

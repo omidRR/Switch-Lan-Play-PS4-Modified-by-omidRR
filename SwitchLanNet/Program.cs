@@ -68,11 +68,24 @@ namespace Switch_Lan_Play_Modified_by_omidRR
             try
             {
                 await CheckAppStatus();
-                Console.WriteLine("\n\nEnter the port, (Press Enter for random port)");
-                Console.Write("Port:");
-                string port = Console.ReadLine();
-                if (port == "")
-                    port = new Random().Next(80, 23427).ToString();
+
+                var portEnv = Environment.GetEnvironmentVariable("port");
+                var ipEnv = Environment.GetEnvironmentVariable("ip");
+
+                string port;
+                if (!string.IsNullOrEmpty(portEnv))
+                {
+                    port = portEnv;
+                }
+                else
+                {
+                    Console.WriteLine("\n\nEnter the port, (Press Enter for random port)");
+                    Console.Write("Port:");
+                    port = Console.ReadLine();
+                    if (port == "")
+                        port = new Random().Next(80, 23427).ToString();
+                }
+
                 var cts = new CancellationTokenSource();
 
                 Console.CancelKeyPress += delegate
@@ -80,12 +93,8 @@ namespace Switch_Lan_Play_Modified_by_omidRR
                     Console.WriteLine("[INFO] Exiting server..");
                     cts.Cancel();
                 };
-                Console.WriteLine("\n\nEnter the IP address, (if the IP is empty, 0.0.0.0 will be replaced)");
-                Console.Write("ip:");
-                var Address = Console.ReadLine();
 
-                if (Address == "")
-                    Address = "0.0.0.0";
+                var Address = string.IsNullOrEmpty(ipEnv) ? "0.0.0.0" : ipEnv;
 
                 try
                 {
