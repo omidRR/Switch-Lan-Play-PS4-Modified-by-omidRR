@@ -4,13 +4,13 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
-
+EXPOSE 5000
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["SwitchLanNet/Switch Lan Play Modified by omidRR.csproj", "SwitchLanNet/"]
-RUN dotnet restore "SwitchLanNet/Switch Lan Play Modified by omidRR.csproj"
+COPY ["Switch Lan Play Modified by omidRR.csproj", "."]
+RUN dotnet restore "./Switch Lan Play Modified by omidRR.csproj"
 COPY . .
-WORKDIR "/src/SwitchLanNet"
+WORKDIR "/src/."
 RUN dotnet build "Switch Lan Play Modified by omidRR.csproj" -c Release -o /app/build
 
 FROM build AS publish
